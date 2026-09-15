@@ -21,6 +21,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/tarunlnmiit/autopilot-jobhunt?style=social)](https://github.com/tarunlnmiit/autopilot-jobhunt/stargazers)
 [![autopilot-jobhunt MCP server](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt/badges/score.svg)](https://glama.ai/mcp/servers/tarunlnmiit/autopilot-jobhunt)
 [![Listed on CodeGuilds](https://codeguilds.dev/badge/autopilot-jobhunt)](https://codeguilds.dev/packages/autopilot-jobhunt)
+[![MCPVault: claimed](https://mcpvault.io/badge/autopilot-jobhunt.svg)](https://mcpvault.io/servers/autopilot-jobhunt/health?utm_source=external_badge&utm_medium=referral&utm_campaign=mcp_health_report)
 
 **Seen by 90K+ people** — [the Instagram reel that launched it](https://www.instagram.com/p/DZhkDvoxtt2/).
 
