@@ -35,25 +35,6 @@ jobs:
           echo "Validating config.json..."
           python -m json.tool config.json > /dev/null && echo "config.json OK"
 
-      # --- QUICK TELEGRAM TEST STEP (Runs in seconds) ---
-      - name: Test Telegram Alert
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          python -c "
-          import os
-          from job_hunt.notifier import send_telegram
-
-          token = os.environ.get('TELEGRAM_TOKEN', '')
-          chat_id = os.environ.get('TELEGRAM_CHAT_ID', '')
-          print(f'Testing with Chat ID: {chat_id}')
-          
-          success = send_telegram(token, chat_id, '🚀 <b>GitHub Actions Test</b>: Telegram alert connection is working!')
-          if not success:
-              raise SystemExit('Telegram test failed. Please check token, chat_id, and ensure you clicked Start on your bot.')
-          "
-
       - name: Run scan
         env:
           TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
