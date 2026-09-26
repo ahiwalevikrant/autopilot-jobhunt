@@ -2,14 +2,14 @@ name: Nightly Job Hunt
 
 on:
   schedule:
-    - cron: '30 2 * * *'   # 2:30 AM UTC — shift to match your timezone
-  workflow_dispatch: {}     # manual "Run workflow" button in the Actions tab
+    - cron: '30 2 * * *'   # 2:30 AM UTC
+  workflow_dispatch: {}
 
 jobs:
   scan:
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # needed to commit state/ back
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install autopilot-jobhunt
-        run: pip install autopilot-jobhunt
+      - name: Install dependencies
+        run: pip install -e .
 
       - name: Rebuild config + resume from secrets
         run: |
@@ -38,6 +38,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase || true
           git add state/
           git commit -m "chore: update scan state [skip ci]" || echo "nothing to commit"
           git push
