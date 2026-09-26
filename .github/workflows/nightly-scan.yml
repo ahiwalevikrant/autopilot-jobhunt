@@ -2,7 +2,7 @@ name: Nightly Job Hunt
 
 on:
   schedule:
-    - cron: '30 2 * * *'   # 2:30 AM UTC
+    - cron: '30 2 * * *'
   workflow_dispatch: {}
 
 jobs:
@@ -17,14 +17,23 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: pip install -e .
 
       - name: Rebuild config + resume from secrets
         run: |
           mkdir -p resume
-          printf '%s' "${{ secrets.JOBHUNT_CONFIG_JSON }}" > config.json
-          printf '%s' "${{ secrets.JOBHUNT_RESUME_MD }}" > resume/resume.md
+
+          cat > config.json <<'EOF'
+          ${{ secrets.JOBHUNT_CONFIG_JSON }}
+          EOF
+
+          cat > resume/resume.md <<'EOF'
+          ${{ secrets.JOBHUNT_RESUME_MD }}
+          EOF
+
+          echo "Validating config.json..."
+          python -m json.tool config.json > /dev/null && echo "config.json OK"
 
       - name: Run scan
         env:
