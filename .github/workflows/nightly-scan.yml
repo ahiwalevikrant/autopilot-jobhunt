@@ -1,0 +1,43 @@
+name: Nightly Job Hunt
+
+on:
+  schedule:
+    - cron: '30 2 * * *'   # 2:30 AM UTC — shift to match your timezone
+  workflow_dispatch: {}     # manual "Run workflow" button in the Actions tab
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # needed to commit state/ back
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install autopilot-jobhunt
+        run: pip install autopilot-jobhunt
+
+      - name: Rebuild config + resume from secrets
+        run: |
+          mkdir -p resume
+          printf '%s' "${{ secrets.JOBHUNT_CONFIG_JSON }}" > config.json
+          printf '%s' "${{ secrets.JOBHUNT_RESUME_MD }}" > resume/resume.md
+
+      - name: Run scan
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: autopilot scan
+
+      - name: Persist scan state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/
+          git commit -m "chore: update scan state [skip ci]" || echo "nothing to commit"
+          git push
