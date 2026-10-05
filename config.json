@@ -12,11 +12,10 @@
     "name": "Vikrant Ahiwale",
     "resume_path": "resume/YOUR_RESUME.md",
     "profile": "3.5+ YOE Product Engineer / Software Engineer specializing in Java, Spring Boot, Microservices, Angular, React, Revenue Management, Data Reconciliation, and AI/LLM applications including RAG, ChromaDB, Ollama, Kafka, and NLP systems.",
-    "seeking": "Remote-friendly roles or employer-sponsored relocation to Europe, UK, Canada, Australia, New Zealand, or Singapore",
-    "not_suitable": "Junior Developer roles, non-technical management positions, support-only roles, pure frontend roles without backend ownership",
-    "relocation_note": "Open to relocation with visa sponsorship and international opportunities in English-speaking countries and Europe.",
-    "search_seniority": "Software Engineer, Senior Software Engineer, Full Stack Engineer, Backend Engineer, AI Engineer, GenAI Engineer",
-    "search_keywords": "Java Spring Boot Microservices Angular React Full Stack AI Engineer GenAI RAG LLM NLP ChromaDB Ollama Kafka Backend Engineer Healthcare Insurance Revenue Management Remote Visa Sponsorship",
+    "seeking": "Software Engineer / Backend / Full Stack / AI Engineer roles based in India (Bengaluru, Pune, Mumbai, Hyderabad, Gurugram, Noida, Chennai)",
+    "not_suitable": "Junior Developer roles, support-only roles, and any roles based outside India (unless 100% remote for candidates residing in India).",
+    "relocation_note": "Open to relocation within major tech hubs across India.",
+    "search_keywords": "Java Spring Boot Microservices Angular React Full Stack AI Engineer GenAI RAG LLM Backend Engineer India Remote",
     "min_score": 60,
     "top_n": 5
   }
