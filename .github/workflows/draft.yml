@@ -1,0 +1,57 @@
+name: Draft Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_ref:
+        description: 'Job number (e.g. #1) or direct Job URL'
+        required: true
+        default: '#1'
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Setup config and resume
+        run: |
+          mkdir -p resume
+          if [ -n "${{ secrets.JOBHUNT_CONFIG_JSON }}" ]; then
+            cat > config.json <<'EOF'
+          ${{ secrets.JOBHUNT_CONFIG_JSON }}
+          EOF
+          fi
+
+          if [ -n "${{ secrets.JOBHUNT_RESUME_MD }}" ]; then
+            cat > resume/YOUR_RESUME.md <<'EOF'
+          ${{ secrets.JOBHUNT_RESUME_MD }}
+          EOF
+            cp resume/YOUR_RESUME.md resume/resume.md
+          fi
+
+          echo "Checking configuration..."
+          python -m json.tool config.json > /dev/null && echo "config.json OK"
+
+      - name: Generate tailored application materials
+        env:
+          TINYFISH_API_KEY: ${{ secrets.TINYFISH_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: autopilot draft "${{ github.event.inputs.job_ref }}"
+
+      - name: Upload tailored application package
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-${{ github.run_id }}
+          path: output/
+          retention-days: 14
